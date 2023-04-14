@@ -7,7 +7,10 @@ class MyTheme {
 
   static final lightTheme = ThemeData(
       primaryColor: lightPrimary,
-      appBarTheme: const AppBarTheme(centerTitle: true),
+      appBarTheme: const AppBarTheme(
+          centerTitle: false,
+          titleTextStyle: TextStyle(
+              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white)),
       scaffoldBackgroundColor: lightScaffoldBackground,
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.transparent,
@@ -18,7 +21,16 @@ class MyTheme {
         showSelectedLabels: false,
         showUnselectedLabels: false,
       ),
+      bottomSheetTheme: const BottomSheetThemeData(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20)))),
       textTheme: const TextTheme(
           displayLarge: TextStyle(
-              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)));
+              color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
+          titleMedium: TextStyle(
+              color: lightPrimary, fontSize: 20, fontWeight: FontWeight.bold),
+          titleSmall: TextStyle(
+              color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)));
 }
