@@ -1,10 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:todo/firebase_options.dart';
 import 'package:todo/ui/home/home_screen.dart';
 import 'package:todo/ui/home/settings/settings_tab.dart';
 import 'package:todo/ui/home/tasks_list/tasks_tab.dart';
 import 'package:todo/ui/my_theme.dart';
 
-void main() {
+Future<void> main() async {
+  await WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -13,15 +19,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return  MaterialApp(
+    return MaterialApp(
       routes: {
-        HomeScreen.screenName :(_) => const HomeScreen(),
-        TasksTab.screenName : (_)=> const TasksTab(),
-        SettingsTab.screenName : (_)=> const SettingsTab(),
+        HomeScreen.screenName: (_) => const HomeScreen(),
+        TasksTab.screenName: (_) => const TasksTab(),
+        SettingsTab.screenName: (_) => const SettingsTab(),
       },
-      initialRoute: HomeScreen.screenName ,
-      theme:MyTheme.lightTheme ,
+      initialRoute: HomeScreen.screenName,
+      theme: MyTheme.lightTheme,
     );
   }
 }
