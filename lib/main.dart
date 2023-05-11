@@ -7,7 +7,7 @@ import 'package:todo/ui/home/tasks_list/tasks_tab.dart';
 import 'package:todo/ui/my_theme.dart';
 
 Future<void> main() async {
-  await WidgetsFlutterBinding.ensureInitialized();
+   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

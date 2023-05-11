@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:todo/database/my_database.dart';
+import 'package:todo/utils/date_utils.dart';
+import 'package:todo/utils/dialoge_utils.dart';
+
+import '../../../database/task.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
@@ -8,11 +13,15 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
+  var formKey = GlobalKey<FormState>();
+  var tittleController = TextEditingController();
+  var descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       child: Form(
+        key: formKey,
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Center(
@@ -22,15 +31,31 @@ class _AddTaskState extends State<AddTask> {
           )),
           TextFormField(
             decoration: const InputDecoration(labelText: "Tittle"),
+            controller: tittleController,
+            validator: (input) {
+              if (input == null || input.trim().isEmpty) {
+                return 'Please enter a valid Tittle';
+              }
+              return null;
+            },
           ),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           TextFormField(
+            minLines: 2,
+            maxLines: 2,
             decoration: const InputDecoration(labelText: "Describtion"),
+            controller: descriptionController,
+            validator: (input) {
+              if (input == null || input.trim().isEmpty) {
+                return 'Please enter a valid description';
+              }
+              return null;
+            },
           ),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           Text(
             'Selected Date',
@@ -44,7 +69,7 @@ class _AddTaskState extends State<AddTask> {
             child: InkWell(
               onTap: showTaskDatePicker,
               child: Text(
-                '12/12/2012',
+                MyDateUtils.formatTaskDate(selectedDate),
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
@@ -52,17 +77,48 @@ class _AddTaskState extends State<AddTask> {
               ),
             ),
           ),
-          ElevatedButton(onPressed: () {}, child: const Text('submit'))
+          ElevatedButton(
+              onPressed: () {
+                insertTask();
+              },
+              child: const Text('submit'))
         ]),
       ),
     );
   }
 
-  void showTaskDatePicker() {
-    showDatePicker(
+  var selectedDate = DateTime.now();
+  void showTaskDatePicker() async {
+    var userSelectedDate = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
+        initialDate: selectedDate,
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(const Duration(days: 365)));
+    if (userSelectedDate == null) {
+      return;
+    }
+    setState(() {
+      selectedDate = userSelectedDate;
+    });
+  }
+
+  Future<void> insertTask() async {
+    if (formKey.currentState?.validate() == false) {
+      return;
+    }
+    Task task = Task(
+        tittle: tittleController.text,
+        description: descriptionController.text,
+        dateTime: selectedDate);
+    DialogeUtils.showProgressDialog(context, 'Loading...',
+        isDismissible: false);
+    await MyDatabase.insertTask(task);
+    DialogeUtils.hideDialog(context);
+
+    DialogeUtils.showMessage(context, 'Task Inserted Successfully',
+        posActionTitle: 'Ok', posAction: () {
+      Navigator.pop(context);
+       Navigator.pop(context);
+    });
   }
 }
