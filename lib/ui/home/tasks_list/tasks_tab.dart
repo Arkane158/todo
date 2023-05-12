@@ -24,15 +24,21 @@ class _TasksTabState extends State<TasksTab> {
     loadTasks();
   }
 
+  var selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         CalendarTimeline(
-          initialDate: DateTime.now(),
+          initialDate: selectedDate,
           firstDate: DateTime.now().subtract(const Duration(days: 365)),
           lastDate: DateTime.now().add(const Duration(days: 365)),
-          onDateSelected: (date) => true,
+          onDateSelected: (date) {
+
+            setState(() {
+              selectedDate = date;
+            });
+          },
           leftMargin: 20,
           monthColor: Colors.black,
           dayColor: Colors.black,
@@ -44,7 +50,7 @@ class _TasksTabState extends State<TasksTab> {
         ),
         Expanded(
             child: StreamBuilder<QuerySnapshot<Task>>(
-                stream: MyDatabase.getTasksRealTimeUpdates(),
+                stream: MyDatabase.getTasksRealTimeUpdates(selectedDate),
                 builder: (__, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     const Center(child: CircularProgressIndicator());
@@ -73,7 +79,7 @@ class _TasksTabState extends State<TasksTab> {
   }
 
   void loadTasks() async {
-    allTasks = await MyDatabase.getTasks();
+    allTasks = await MyDatabase.getTasks(selectedDate);
     setState(() {});
   }
 }

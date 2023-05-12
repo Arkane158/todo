@@ -6,3 +6,10 @@ class MyDateUtils {
     return formatter.format(dateTime);
   }
 }
+
+extension DateTimeExtension on DateTime {
+  DateTime extractDateOnly() {
+    return DateTime(year, month, day);
+  }
+  
+}

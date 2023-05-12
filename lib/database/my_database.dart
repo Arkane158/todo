@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:todo/database/task.dart';
+import 'package:todo/utils/date_utils.dart';
 
 class MyDatabase {
   static CollectionReference<Task> getTasksCollection() {
@@ -17,17 +18,32 @@ class MyDatabase {
 
     var doc = tasksCollection.doc();
     task.id = doc.id;
+    task.dateTime = task.dateTime.extractDateOnly();
     return doc.set(task);
   }
 
-  static Future<List<Task>> getTasks() async {
-    var quereSnapshot = await getTasksCollection().get();
+  static Future<List<Task>> getTasks(DateTime dateTime) async {
+    var quereSnapshot = await getTasksCollection()
+        .where('dateTime',
+            isEqualTo: dateTime.extractDateOnly().millisecondsSinceEpoch)
+        .get();
     var tasksList = quereSnapshot.docs.map((doc) => doc.data()).toList();
     return tasksList;
   }
 
-  static Stream<QuerySnapshot<Task>> getTasksRealTimeUpdates() {
-    return getTasksCollection().snapshots();
+  static Future<QuerySnapshot<Task>> getTaskFuture(DateTime dateTime) {
+    return getTasksCollection()
+        .where('dateTime',
+            isEqualTo: dateTime.extractDateOnly().millisecondsSinceEpoch)
+        .get();
+  }
+
+  static Stream<QuerySnapshot<Task>> getTasksRealTimeUpdates(
+      DateTime dateTime) {
+    return getTasksCollection()
+        .where('dateTime',
+            isEqualTo: dateTime.extractDateOnly().millisecondsSinceEpoch)
+        .snapshots();
   }
 
   static Future<void> deleteTask(Task task) {
