@@ -7,7 +7,7 @@ import 'package:todo/ui/home/tasks_list/tasks_tab.dart';
 import 'package:todo/ui/my_theme.dart';
 
 Future<void> main() async {
-   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -20,9 +20,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       routes: {
         HomeScreen.screenName: (_) => const HomeScreen(),
-        TasksTab.screenName: (_) =>  const TasksTab(),
+        TasksTab.screenName: (_) => const TasksTab(),
         SettingsTab.screenName: (_) => const SettingsTab(),
       },
       initialRoute: HomeScreen.screenName,

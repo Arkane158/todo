@@ -114,25 +114,13 @@ class _AddTaskState extends State<AddTask> {
         dateTime: selectedDate);
     DialogeUtils.showProgressDialog(context, 'Loading...',
         isDismissible: false);
-    try {
-      await MyDatabase.insertTask(task);
-      DialogeUtils.hideDialog(context);
+    await MyDatabase.insertTask(task);
+    DialogeUtils.hideDialog(context);
 
-      DialogeUtils.showMessage(context, 'Task Inserted Successfully',
-          posActionTitle: 'Ok', posAction: () {
-        Navigator.pop(context);
-      });
-    } catch (e) {
-      DialogeUtils.hideDialog(context);
-      DialogeUtils.showMessage(context, "Error inserting task",
-          posActionTitle: 'Try Again',
-          posAction: () {
-            insertTask();
-          },
-          negActionTitle: 'Cancel',
-          negAction: () {
-            Navigator.pop(context);
-          });
-    }
+    DialogeUtils.showMessage(context, 'Task Inserted Successfully',
+        posActionTitle: 'Ok', posAction: () {
+      Navigator.pop(context);
+      
+    });
   }
 }

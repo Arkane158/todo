@@ -33,7 +33,7 @@ class DialogeUtils {
           onPressed: () {
             Navigator.pop(context);
             if (posAction != null) {
-              posAction;
+              posAction();
             }
           },
           child: Text(posActionTitle)));
@@ -42,7 +42,7 @@ class DialogeUtils {
       actions.add(TextButton(
           onPressed: () {
             if (negAction != null) {
-              negAction;
+              negAction();
             }
           },
           child: Text(negActionTitle)));
@@ -59,6 +59,6 @@ class DialogeUtils {
   }
 
   static void hideDialog(BuildContext context) {
-    Navigator.pop(context);
+    Navigator.of(context).pop();
   }
 }
