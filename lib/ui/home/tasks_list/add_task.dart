@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:todo/database/my_database.dart';
 import 'package:todo/utils/date_utils.dart';
@@ -112,13 +114,25 @@ class _AddTaskState extends State<AddTask> {
         dateTime: selectedDate);
     DialogeUtils.showProgressDialog(context, 'Loading...',
         isDismissible: false);
-    await MyDatabase.insertTask(task);
-    DialogeUtils.hideDialog(context);
+    try {
+      await MyDatabase.insertTask(task);
+      DialogeUtils.hideDialog(context);
 
-    DialogeUtils.showMessage(context, 'Task Inserted Successfully',
-        posActionTitle: 'Ok', posAction: () {
-      Navigator.pop(context);
-       Navigator.pop(context);
-    });
+      DialogeUtils.showMessage(context, 'Task Inserted Successfully',
+          posActionTitle: 'Ok', posAction: () {
+        Navigator.pop(context);
+      });
+    } catch (e) {
+      DialogeUtils.hideDialog(context);
+      DialogeUtils.showMessage(context, "Error inserting task",
+          posActionTitle: 'Try Again',
+          posAction: () {
+            insertTask();
+          },
+          negActionTitle: 'Cancel',
+          negAction: () {
+            Navigator.pop(context);
+          });
+    }
   }
 }

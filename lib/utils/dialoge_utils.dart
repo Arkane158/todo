@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class DialogeUtils {
-  static void showProgressDialog(BuildContext _, String message,
+  static void showProgressDialog(BuildContext context, String message,
       {bool isDismissible = true}) {
     showDialog(
-      context: _,
-      builder: (_) {
+      context: context,
+      builder: (context) {
         return AlertDialog(
           content: Row(
             children: [
@@ -50,7 +50,7 @@ class DialogeUtils {
 
     showDialog(
         context: context,
-        builder: (_) {
+        builder: (context) {
           return AlertDialog(
             content: Text(message),
             actions: actions,
@@ -58,7 +58,7 @@ class DialogeUtils {
         });
   }
 
-  static void hideDialog(BuildContext _) {
-    Navigator.pop(_);
+  static void hideDialog(BuildContext context) {
+    Navigator.pop(context);
   }
 }

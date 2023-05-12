@@ -1,41 +1,79 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:todo/database/my_database.dart';
 import 'package:todo/ui/home/tasks_list/tasks_item.dart';
 
-class TasksTab extends StatelessWidget {
+import '../../../database/task.dart';
+
+class TasksTab extends StatefulWidget {
   static const String screenName = "tasksTab";
 
   const TasksTab({super.key});
 
   @override
+  State<TasksTab> createState() => _TasksTabState();
+}
+
+class _TasksTabState extends State<TasksTab> {
+  List<Task> allTasks = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadTasks();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          CalendarTimeline(
-            initialDate: DateTime.now(),
-            firstDate: DateTime.now().subtract(const Duration(days: 365)),
-            lastDate: DateTime.now().add(const Duration(days: 365)),
-            onDateSelected: (date) => true,
-            leftMargin: 20,
-            monthColor: Colors.black,
-            dayColor: Colors.black,
-            activeDayColor: Theme.of(context).primaryColor,
-            activeBackgroundDayColor: Colors.white,
-            dotsColor: Theme.of(context).primaryColor,
-            selectableDayPredicate: (date) => true,
-            locale: 'en_ISO',
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (_, index) {
-                return const TasksItem();
-              },
-              itemCount: 10,
-            ),
-          )
-        ],
-      ),
+    return Column(
+      children: [
+        CalendarTimeline(
+          initialDate: DateTime.now(),
+          firstDate: DateTime.now().subtract(const Duration(days: 365)),
+          lastDate: DateTime.now().add(const Duration(days: 365)),
+          onDateSelected: (date) => true,
+          leftMargin: 20,
+          monthColor: Colors.black,
+          dayColor: Colors.black,
+          activeDayColor: Theme.of(context).primaryColor,
+          activeBackgroundDayColor: Colors.white,
+          dotsColor: Theme.of(context).primaryColor,
+          selectableDayPredicate: (date) => true,
+          locale: 'en_ISO',
+        ),
+        Expanded(
+            child: StreamBuilder<QuerySnapshot<Task>>(
+                stream: MyDatabase.getTasksRealTimeUpdates(),
+                builder: (__, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Column(
+                        children: const [
+                          Text('Error Loading tasks,'
+                              ' Try Again Later'),
+                        ],
+                      ),
+                    );
+                  }
+                  var tasks =
+                      snapshot.data?.docs.map((doc) => doc.data()).toList();
+                  return ListView.builder(
+                    itemBuilder: (_, index) {
+                      return TasksItem(tasks![index]);
+                    },
+                    itemCount: tasks?.length ?? 0,
+                  );
+                }))
+      ],
     );
+  }
+
+  void loadTasks() async {
+    allTasks = await MyDatabase.getTasks();
+    setState(() {});
   }
 }

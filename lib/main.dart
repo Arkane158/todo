@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         HomeScreen.screenName: (_) => const HomeScreen(),
-        TasksTab.screenName: (_) => const TasksTab(),
+        TasksTab.screenName: (_) =>  const TasksTab(),
         SettingsTab.screenName: (_) => const SettingsTab(),
       },
       initialRoute: HomeScreen.screenName,

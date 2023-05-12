@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List<Widget> bottomNavigationBarTabs = [
-    const TasksTab(),
+     const TasksTab(),
     const SettingsTab(),
   ];
 
