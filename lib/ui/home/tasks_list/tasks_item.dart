@@ -1,3 +1,5 @@
+
+
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
@@ -9,7 +11,7 @@ import '../../../database/task.dart';
 
 class TasksItem extends StatefulWidget {
   Task task;
-  TasksItem(this.task);
+  TasksItem(this.task, {super.key});
 
   @override
   State<TasksItem> createState() => _TasksItemState();
@@ -90,17 +92,17 @@ class _TasksItemState extends State<TasksItem> {
   void deleteTask() {
     DialogeUtils.showMessage(
         context, 'Are you sure you want to delete this task?',
-        posActionTitle: 'yes',
-        posAction: () async {
+        posActionTitle: 'yes', negActionTitle: 'Cancel',
+        negAction: () {
+          DialogeUtils.hideDialog(context);
+        },
+        posAction: ( )async {
           DialogeUtils.showProgressDialog(context, 'Loading...');
           await MyDatabase.deleteTask(widget.task);
           DialogeUtils.hideDialog(context);
           DialogeUtils.showMessage(context, 'Task Deleted successfully',
               posActionTitle: 'oK', negActionTitle: 'Undo', negAction: () {});
         },
-        negActionTitle: 'Cancel',
-        negAction: () {
-          DialogeUtils.hideDialog(context);
-        });
+       );
   }
 }
