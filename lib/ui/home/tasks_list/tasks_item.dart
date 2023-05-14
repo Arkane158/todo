@@ -97,11 +97,8 @@ class _TasksItemState extends State<TasksItem> {
           DialogeUtils.hideDialog(context);
         },
         posAction: ( )async {
-          DialogeUtils.showProgressDialog(context, 'Loading...');
           await MyDatabase.deleteTask(widget.task);
-          DialogeUtils.hideDialog(context);
-          DialogeUtils.showMessage(context, 'Task Deleted successfully',
-              posActionTitle: 'oK', negActionTitle: 'Undo', negAction: () {});
+
         },
        );
   }
