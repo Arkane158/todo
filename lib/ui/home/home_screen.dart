@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 10,
+        color: Theme.of(context).colorScheme.secondary,
         child: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.list), label: ''),
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List<Widget> bottomNavigationBarTabs = [
-     const TasksTab(),
+    const TasksTab(),
     const SettingsTab(),
   ];
 

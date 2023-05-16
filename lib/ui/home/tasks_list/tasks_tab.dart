@@ -34,14 +34,13 @@ class _TasksTabState extends State<TasksTab> {
           firstDate: DateTime.now().subtract(const Duration(days: 365)),
           lastDate: DateTime.now().add(const Duration(days: 365)),
           onDateSelected: (date) {
-
             setState(() {
               selectedDate = date;
             });
           },
           leftMargin: 20,
-          monthColor: Colors.black,
-          dayColor: Colors.black,
+          monthColor: Theme.of(context).colorScheme.background,
+          dayColor: Theme.of(context).colorScheme.background,
           activeDayColor: Theme.of(context).primaryColor,
           activeBackgroundDayColor: Colors.white,
           dotsColor: Theme.of(context).primaryColor,

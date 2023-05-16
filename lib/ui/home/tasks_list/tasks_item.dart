@@ -42,7 +42,8 @@ class _TasksItemState extends State<TasksItem> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 27, horizontal: 18),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(18)),
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: BorderRadius.circular(18)),
           child: Row(
             children: [
               Container(
@@ -57,7 +58,11 @@ class _TasksItemState extends State<TasksItem> {
                 children: [
                   Text(
                     widget.task.tittle,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(color: Theme.of(context).primaryColor),
+                        
                   ),
                   const SizedBox(
                     height: 8,

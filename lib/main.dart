@@ -7,6 +7,8 @@ import 'package:todo/ui/home/home_screen.dart';
 import 'package:todo/ui/home/settings/settings_tab.dart';
 import 'package:todo/ui/home/tasks_list/tasks_tab.dart';
 import 'package:todo/ui/my_theme.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +25,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        var settingsProviders = Provider.of<SettingsProviders>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
@@ -32,6 +36,16 @@ class MyApp extends StatelessWidget {
       },
       initialRoute: HomeScreen.screenName,
       theme: MyTheme.lightTheme,
+      darkTheme: MyTheme.darkTheme,
+      themeMode: settingsProviders.currentTheme,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: Locale(settingsProviders.currentlang),
     );
   }
 }

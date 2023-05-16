@@ -22,6 +22,10 @@ class _AddTaskState extends State<AddTask> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.secondary,
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(18), topRight: Radius.circular(18))),
       child: Form(
         key: formKey,
         child:
@@ -32,7 +36,12 @@ class _AddTaskState extends State<AddTask> {
             style: Theme.of(context).textTheme.displayLarge,
           )),
           TextFormField(
-            decoration: const InputDecoration(labelText: "Tittle"),
+            decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.background)),
+                labelText: "Tittle",
+                labelStyle: Theme.of(context).textTheme.labelSmall),
             controller: tittleController,
             validator: (input) {
               if (input == null || input.trim().isEmpty) {
@@ -47,7 +56,12 @@ class _AddTaskState extends State<AddTask> {
           TextFormField(
             minLines: 2,
             maxLines: 2,
-            decoration: const InputDecoration(labelText: "Describtion"),
+            decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.background)),
+                labelText: "Describtion",
+                labelStyle: Theme.of(context).textTheme.labelSmall),
             controller: descriptionController,
             validator: (input) {
               if (input == null || input.trim().isEmpty) {
@@ -72,10 +86,7 @@ class _AddTaskState extends State<AddTask> {
               onTap: showTaskDatePicker,
               child: Text(
                 MyDateUtils.formatTaskDate(selectedDate),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: Theme.of(context).primaryColor),
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
           ),
@@ -120,7 +131,6 @@ class _AddTaskState extends State<AddTask> {
     DialogeUtils.showMessage(context, 'Task Inserted Successfully',
         posActionTitle: 'Ok', posAction: () {
       Navigator.pop(context);
-      
     });
   }
 }
