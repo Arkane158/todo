@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/firebase_options.dart';
+import 'package:todo/providers/settings_provider.dart';
 import 'package:todo/ui/home/home_screen.dart';
 import 'package:todo/ui/home/settings/settings_tab.dart';
 import 'package:todo/ui/home/tasks_list/tasks_tab.dart';
@@ -11,7 +13,9 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (BuildContext context) => SettingsProviders(),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

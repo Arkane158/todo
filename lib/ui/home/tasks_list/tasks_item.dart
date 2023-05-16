@@ -1,5 +1,3 @@
-
-
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
@@ -35,7 +33,6 @@ class _TasksItemState extends State<TasksItem> {
                 },
                 backgroundColor: Colors.red,
                 icon: Icons.delete,
-                label: 'Delete',
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(18),
                   bottomLeft: Radius.circular(18),
@@ -91,15 +88,16 @@ class _TasksItemState extends State<TasksItem> {
 
   void deleteTask() {
     DialogeUtils.showMessage(
-        context, 'Are you sure you want to delete this task?',
-        posActionTitle: 'yes', negActionTitle: 'Cancel',
-        negAction: () {
-          DialogeUtils.hideDialog(context);
-        },
-        posAction: ( )async {
-          await MyDatabase.deleteTask(widget.task);
-
-        },
-       );
+      context,
+      'Are you sure you want to delete this task?',
+      posActionTitle: 'yes',
+      negActionTitle: 'Cancel',
+      negAction: () {
+        DialogeUtils.hideDialog(context);
+      },
+      posAction: () async {
+        await MyDatabase.deleteTask(widget.task);
+      },
+    );
   }
 }

@@ -32,5 +32,9 @@ class MyTheme {
           titleMedium: TextStyle(
               color: lightPrimary, fontSize: 20, fontWeight: FontWeight.bold),
           titleSmall: TextStyle(
-              color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)));
+              color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+          headlineMedium: TextStyle(
+              color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
+          headlineSmall: TextStyle(
+              color: lightPrimary, fontSize: 20, fontWeight: FontWeight.w400)));
 }

@@ -56,9 +56,9 @@ class _TasksTabState extends State<TasksTab> {
                     const Center(child: CircularProgressIndicator());
                   }
                   if (snapshot.hasError) {
-                    return Center(
+                    return const Center(
                       child: Column(
-                        children: const [
+                        children: [
                           Text('Error Loading tasks,'
                               ' Try Again Later'),
                         ],
