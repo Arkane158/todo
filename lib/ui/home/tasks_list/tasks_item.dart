@@ -8,8 +8,8 @@ import 'package:todo/utils/dialoge_utils.dart';
 import '../../../database/task.dart';
 
 class TasksItem extends StatefulWidget {
-  Task task;
-  TasksItem(this.task, {super.key});
+ final Task task;
+ const TasksItem(this.task, {super.key});
 
   @override
   State<TasksItem> createState() => _TasksItemState();
