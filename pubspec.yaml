@@ -62,6 +62,8 @@ flutter_native_splash:
     icon_background_color: "#DFECDB"
     image_dark: assets/images/splash.png
     icon_background_color_dark: "#060E1E"
+    fit: true
+    fit_dark: true
     
 
   # The "flutter_lints" package below contains a set of recommended lints to
